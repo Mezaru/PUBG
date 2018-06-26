@@ -1,0 +1,88 @@
+﻿@model HomePlayerDetailVM
+
+<style>
+    body {
+        text-align: center
+    }
+
+    table {
+        margin: auto;
+    }
+
+    th {
+        text-align: center;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    td {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+
+<h1>@Model.Player.Data.First().Attributes.Name</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Match Duration(min)</th>
+            <th>Gamemode</th>
+            <th>Map</th>
+            <th>Kills</th>
+            <th>Time Alive(min)</th>
+            <th>Place</th>
+            <th>&emsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Matches)
+        {
+            <tr>
+                <td> @item.Data.Attributes.CreatedAt.ToShortDateString()</td>
+                <td> @item.Data.Attributes.CreatedAt.ToShortTimeString()</td>
+                <td>@item.Data.Attributes.Duration</td>
+                <td>@item.Data.Attributes.GameMode</td>
+                <td>@item.Data.Attributes.MapName</td>
+                <td>@item.Stats.Kills</td>
+                <td>@item.Stats.TimeSurvived</td>
+                <td>#@item.Stats.WinPlace</td>
+                <td>
+                    @if (item.Win)
+                    {
+                        <img style="width: 20px" src="http://moziru.com/images/diner-clipart-chicken-dinner-7.png" />
+                    }
+                    else
+                    {
+                        <p>&emsp;</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<select id="season_select">
+    @foreach (var item in Model.Seasons.SeasonsData)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>
+<select id="queue-select">
+    <option value="solo">Solo</option>
+    <option value="duo">Duo</option>
+    <option value="squad">Squad</option>
+    <option value="solo-fpp">Solo-fpp</option>
+    <option value="duo-fpp">Duo-fpp</option>
+    <option value="squad-fpp">Squad-fpp</option>
+</select>
+
+<div class="button" id="submit">Get Data</div>
+
+<div style="width: 60%; margin:auto">
+    <canvas id="myChart"></canvas>
+</div>

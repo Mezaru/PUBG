@@ -1,8 +1,31 @@
+@model HomeIndexVM
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<div id="react-app">Loading...</div>
+<form asp-controller="home" , asp-action="Index">
+    @*<select asp-for="Seasons">
+            @foreach (var item in Model.Seasons.SeasonsData)
+            {
+                <option>@item.Name</option>
+            }
+        </select>*@
+    <select asp-for="SelectedRegion">
+        @foreach (var item in Model.Regions.RegionNames)
+        {
+            if (item == "pc-eu")
+            {
+                <option selected>@item</option>
+            }
+            else
+            {
+                <option>@item</option>
+            }
+        }
+    </select>
+    <input asp-for="PlayerName" value="Mezaru" />
+    <button formmethod="post">Submit</button>
+</form>
+@*<div id="react-app">Loading...</div>*@
 
 @section scripts {
     <script src="~/dist/main.js" asp-append-version="true"></script>
